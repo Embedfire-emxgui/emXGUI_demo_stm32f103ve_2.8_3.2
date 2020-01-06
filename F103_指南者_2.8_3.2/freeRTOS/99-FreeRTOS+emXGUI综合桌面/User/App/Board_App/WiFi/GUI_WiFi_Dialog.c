@@ -428,7 +428,7 @@ static LRESULT	win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
       rc.h = 117;
       rc.x = 160;
       rc.y = 122;
-      CreateWindow(TEXTBOX, L"你好！这里是野火开发板 ^_^\n若需修改IP等参数,请在程序中修改", WS_TRANSPARENT | WS_VISIBLE|WS_OWNERDRAW, rc.x, rc.y, rc.w, rc.h, hwnd, ID_TEXTBOX_Send, NULL, NULL);
+      CreateWindow(TEXTBOX, L"你好!这里是野火开发板. 若需修改IP等参数,请在程序中修改 由于引脚复用,在连接摄像头模块后,有连接不成功的情况,请移除摄像头再试", WS_TRANSPARENT | WS_VISIBLE|WS_OWNERDRAW, rc.x, rc.y, rc.w, rc.h, hwnd, ID_TEXTBOX_Send, NULL, NULL);
 
       /* 创建接收窗口 */
       rc.w = 157;

@@ -62,7 +62,7 @@ static void dummy(void *p)
 #if defined(Demo2)
 extern void	GUI_MUSICPLAYER_DIALOG(void);
 extern void GUI_RECORDER_DIALOG(void);
-#else
+#elif defined(Demo1)
 extern void	GUI_LED_DIALOG(void);
 extern void	GUI_Camera_DIALOG(void);
 extern void GUI_ADC_CollectVoltage_Dialog(void);
@@ -76,6 +76,8 @@ extern void gui_network_dialog(void);
 extern void GUI_SimulateUDisk_Dialog(void);
 extern void GUI_LED_KEY_Dialog(void);
 extern void GUI_Beeper_Dialog(void);
+#elif defined(OnlyCam)
+extern void	GUI_Camera_DIALOG(void);
 #endif
 extern BOOL player_state;
 int thread_ctrl = 1;
@@ -148,7 +150,7 @@ static const struct __obj_list menu_list_1[] = {
       L"录音机",	    NULL,	  L"Y", RGB_WHITE, GUI_RECORDER_DIALOG,
 //      L"FlashWriter", NULL,	  L"b", RGB_WHITE, GUI_RES_Writer_Dialog,
 
-#else
+#elif defined(Demo1)
 //      L"GUI应用",		  NULL, 	L"J", RGB_WHITE, GUI_App_Desktop,//dummy,//
       L"RGB彩灯",		  NULL,	  L"L", RGB_WHITE, GUI_LED_DIALOG,//dummy,//GUI_LED_DIALOG
       L"摄像头",		  NULL,	  L"M", RGB_WHITE, GUI_Camera_DIALOG,//dummy,//	
@@ -166,6 +168,8 @@ static const struct __obj_list menu_list_1[] = {
 //  
       L"电压表",		  NULL,	  L"W", RGB_WHITE, GUI_ADC_CollectVoltage_Dialog,  
       L"温湿度",	    NULL,   L"O", RGB_WHITE, GUI_T_RH_Dialog,
+#elif defined(OnlyCam)
+      L"摄像头",		  NULL,	  L"M", RGB_WHITE, GUI_Camera_DIALOG,//dummy,//	
 #endif
       NULL,	NULL,	NULL,NULL, NULL,//结束标志!
 

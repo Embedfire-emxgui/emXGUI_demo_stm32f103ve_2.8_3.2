@@ -168,7 +168,7 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
-#if !defined(Demo2)
+#if defined(Demo1)
 /*
  * 函数名：USB_LP_CAN1_RX0_IRQHandler
  * 描述  ：USB低优先级中断请求

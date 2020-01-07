@@ -120,53 +120,26 @@ static	void	_EraseBackgnd(HDC hdc,const RECT *lprc,HWND hwnd)
   SetFont(hdc, logoFont);
   /* 显示logo */
   GetClientRect(hwnd,&rc);
-  rc.y = GUI_YSIZE - HEAD_INFO_HEIGHT-2;
+  rc.y = GUI_YSIZE - HEAD_INFO_HEIGHT-5;
   rc.h = HEAD_INFO_HEIGHT;
-  
+  rc.x +=5;
   SetTextColor(hdc,MapRGB(hdc,255,255,255)); 
   DrawText(hdc,L"B",-1,&rc,DT_LEFT|DT_VCENTER);
   
   
   GetClientRect(hwnd,&rc);
-  rc.y = GUI_YSIZE - HEAD_INFO_HEIGHT-2;
+  rc.y = GUI_YSIZE - HEAD_INFO_HEIGHT;
   rc.h = HEAD_INFO_HEIGHT;
 
   /* 恢复默认字体 */
   SetFont(hdc, defaultFont);
-  rc.x += 20;
+  rc.x += 40;
   DrawText(hdc,L"野火@emXGUI",-1,&rc,DT_LEFT|DT_VCENTER);
 
   GetClientRect(hwnd,&rc);
-  rc.w = 52;
-  rc.x = GUI_XSIZE/2 - rc.w/2;
-  rc.h = 20;
-  rc.y = GUI_YSIZE - HEAD_INFO_HEIGHT+9;
-  
-  
-  /* 控制图标字体 */
-  SetFont(hdc, controlFont_32);
-
-  /* 向上图标 */
-  SetTextColor(hdc,MapRGB(hdc,255,255,255)); 
-  DrawText(hdc,L"f",-1,&rc,DT_LEFT|DT_VCENTER);
-  
-  SetPenColor(hdc, MapRGB(hdc, 250, 250, 250));
-  EnableAntiAlias(hdc, ENABLE);
-  DrawRoundRect(hdc, &rc, MIN(rc.w, rc.h)>>1);
-  EnableAntiAlias(hdc, DISABLE);
-
- /* 恢复默认字体 */
-  SetFont(hdc, defaultFont);
-//  OffsetRect(&rc,0,-3);
-  DrawText(hdc,L" 说明",-1,&rc,DT_CENTER|DT_VCENTER);
-  
-
-//  rc.y -= 20;
-//  DrawText(hdc,L"\r\n\r\n详细",-1,&rc,DT_BOTTOM|DT_CENTER);
-  GetClientRect(hwnd,&rc);
   rc.y = GUI_YSIZE - HEAD_INFO_HEIGHT;
   rc.h = HEAD_INFO_HEIGHT;
-
+	rc.x -=5;
   DrawText(hdc,L"www.embedFire.com",-1,&rc,DT_RIGHT|DT_VCENTER);  
 
 }
@@ -313,7 +286,7 @@ void GUI_DesktopStartup(void)
 
 //  GUI_DEBUG("Create desktop");
 	//创建桌面窗口.
-	hwnd = GUI_CreateDesktop(	WS_EX_LOCKPOS|WS_EX_FRAMEBUFFER,
+	hwnd = GUI_CreateDesktop(	WS_EX_LOCKPOS,
                               &wcex,
                               L"DESKTOP",
                               WS_VISIBLE|WS_CLIPCHILDREN,

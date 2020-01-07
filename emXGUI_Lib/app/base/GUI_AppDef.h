@@ -31,7 +31,7 @@ extern uint8_t Theme_Flag;
 
 #define ID_SLIDE_WINDOW   1200
 
-#define HEAD_INFO_HEIGHT   36
+#define HEAD_INFO_HEIGHT   40
 #define WM_MSG_FRAME_DOWN  (WM_USER+50)
 
 #define COLOR_DESKTOP_BACK_GROUND         215,61,50

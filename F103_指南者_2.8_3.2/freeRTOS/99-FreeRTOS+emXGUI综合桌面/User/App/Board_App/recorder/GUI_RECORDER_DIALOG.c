@@ -568,7 +568,7 @@ static LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                          record_icon[xC].rc.w,record_icon[xC].rc.h,
                          hwnd, record_icon[xC].id, NULL, NULL); 
          }
-          
+				 ShowWindow(GetDlgItem(hwnd, ID_RECORD_BUGLE), SW_HIDE);     // 隐藏外放喇叭的按钮
          ShowWindow(GetDlgItem(hwnd, ID_RECORD_PADNC), SW_HIDE);     // 窗口隐藏继续和暂停的按钮
          EnableWindow(GetDlgItem(hwnd, ID_RECORD_STOP), DISABLE);    // 禁用停止按钮
 
@@ -900,7 +900,7 @@ static LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							}
             }
             break;
-            
+#if 0
             /* 音频输出选择按钮 */
             case ID_RECORD_BUGLE:
             {
@@ -920,7 +920,7 @@ static LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							}
             }
             break;
-            
+#endif
             /* 音量调节按钮被按下 */
             case ID_RECORD_bPOWER:
             {

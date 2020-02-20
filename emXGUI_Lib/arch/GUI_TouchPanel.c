@@ -1,5 +1,10 @@
 
-#include    <string.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "./touch/gt5xx.h"
+#include "./touch/bsp_i2c_touch.h"
+#include "gui_drv_cfg.h"
 
 #include <emXGUI.h>
 #include	"GUI_Drv.h"
@@ -304,6 +309,7 @@ static int ts_state=TS_ACT_NONE;
 //BOOL TouchDev_Init(void)
 BOOL GTP_Init_Panel(void)
 {
+#if 0
 	ts_state=TS_ACT_NONE;
 
 
@@ -311,6 +317,149 @@ BOOL GTP_Init_Panel(void)
 	{
 		pTouchDev->Init();
 	}
+#endif
+	int32_t ret = -1;
+
+	int32_t i = 0;
+	uint16_t check_sum = 0;
+	int32_t retry = 0;
+
+	const uint8_t* cfg_info;
+	uint8_t cfg_info_len  ;
+	uint8_t* config;
+
+	uint8_t cfg_num =0 ;		//需要配置的寄存器个数
+
+	GTP_DEBUG_FUNC();
+
+//uint8_t config[GTP_CONFIG_MAX_LENGTH + GTP_ADDR_LENGTH]
+//                = {GTP_REG_CONFIG_DATA >> 8, GTP_REG_CONFIG_DATA & 0xff};
+
+	config = (uint8_t *)malloc (GTP_CONFIG_MAX_LENGTH + GTP_ADDR_LENGTH);
+
+	config[0] = GTP_REG_CONFIG_DATA >> 8;
+	config[1] =  GTP_REG_CONFIG_DATA & 0xff;
+
+	I2C_Touch_Init();
+
+	ret = GTP_I2C_Test();
+	if (ret < 0)
+	{
+			GTP_ERROR("I2C communication ERROR!");
+			return ret;
+	} 
+	
+	//获取触摸IC的型号
+	GTP_Read_Version(); 
+	
+	//根据IC的型号指向不同的配置
+		if(touchIC == GT5688)
+	{
+		cfg_info =  CTP_CFG_GT5688; //指向寄存器配置
+		cfg_info_len = CFG_GROUP_LEN(CTP_CFG_GT5688);//计算配置表的大小
+	}
+	
+	memset(&config[GTP_ADDR_LENGTH], 0, GTP_CONFIG_MAX_LENGTH);
+	memcpy(&config[GTP_ADDR_LENGTH], cfg_info, cfg_info_len);
+	
+
+	cfg_num = cfg_info_len;
+	
+	GTP_DEBUG("cfg_info_len = %d ",cfg_info_len);
+	GTP_DEBUG("cfg_num = %d ",cfg_num);
+	GTP_DEBUG_ARRAY(config,6);
+	
+	/*根据LCD的扫描方向设置分辨率*/
+	config[GTP_ADDR_LENGTH+1] = LCD_X_LENGTH & 0xFF;
+	config[GTP_ADDR_LENGTH+2] = LCD_X_LENGTH >> 8;
+	config[GTP_ADDR_LENGTH+3] = LCD_Y_LENGTH & 0xFF;
+	config[GTP_ADDR_LENGTH+4] = LCD_Y_LENGTH >> 8;
+//    config[GTP_ADDR_LENGTH+6] &= ~(X2Y_LOC);
+	config[GTP_ADDR_LENGTH+6] |= (X2Y_LOC);
+#if 0
+	/*根据扫描模式设置X2Y交换*/
+	switch(LCD_SCAN_MODE)
+	{
+		case 0:case 2:case 4: case 6:
+			config[GTP_ADDR_LENGTH+6] &= ~(X2Y_LOC);
+			break;
+		
+		case 1:case 3:case 5: case 7:
+			config[GTP_ADDR_LENGTH+6] |= (X2Y_LOC);
+			break;		
+	}
+#endif
+	//计算要写入checksum寄存器的值
+	check_sum = 0;
+	
+	for (i = GTP_ADDR_LENGTH; i < (cfg_num+GTP_ADDR_LENGTH -3); i += 2) 
+	{
+		check_sum += (config[i] << 8) + config[i + 1];
+	}
+	
+	check_sum = 0 - check_sum;
+	GTP_DEBUG("Config checksum: 0x%04X", check_sum);
+	//更新checksum
+	config[(cfg_num+GTP_ADDR_LENGTH -3)] = (check_sum >> 8) & 0xFF;
+	config[(cfg_num+GTP_ADDR_LENGTH -2)] = check_sum & 0xFF;
+	config[(cfg_num+GTP_ADDR_LENGTH -1)] = 0x01;
+	
+
+	//写入配置信息
+	for (retry = 0; retry < 5; retry++)
+	{
+			ret = GTP_I2C_Write(GTP_ADDRESS, config , cfg_num + GTP_ADDR_LENGTH+2);
+			if (ret > 0)
+			{
+					break;
+			}
+	}
+	Delay(0xfffff);				//延迟等待芯片更新
+	
+
+	
+#if 0	//读出写入的数据，检查是否正常写入
+	//检验读出的数据与写入的是否相同
+{
+				uint16_t i;
+				uint8_t buf[300];
+				 buf[0] = config[0];
+				 buf[1] =config[1];    //寄存器地址
+
+				GTP_DEBUG_FUNC();
+
+				ret = GTP_I2C_Read(GTP_ADDRESS, buf, sizeof(buf));
+			 
+				GTP_DEBUG("read ");
+
+				GTP_DEBUG_ARRAY(buf,cfg_num);
+	
+				GTP_DEBUG("write ");
+
+				GTP_DEBUG_ARRAY(config,cfg_num);
+
+				//不对比版本号
+				for(i=1;i<cfg_num+GTP_ADDR_LENGTH-3;i++)
+				{
+
+					if(config[i] != buf[i])
+					{
+						GTP_ERROR("Config fail ! i = %d ",i);
+						free(config);
+						return -1;
+					}
+				}
+				if(i==cfg_num+GTP_ADDR_LENGTH-3)
+				GTP_DEBUG("Config success ! i = %d ",i);
+}
+#endif
+
+	
+	I2C_GTP_IRQDisable();
+
+	GTP_Get_Info();
+	
+	free(config);
 
 	return 0;
 }

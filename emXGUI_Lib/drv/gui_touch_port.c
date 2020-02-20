@@ -20,7 +20,6 @@
 
 /* 注册触摸设备 */
 #if	GUI_TOUCHSCREEN_EN
-#ifdef STM32F10X_HD ||  
 #if GUI_TOUCHSCREEN_CALIBRATE
 #define	SET_TOUCH_DEV(obj)	  extern const GUI_TOUCH_DEV obj; \
 							  const GUI_TOUCH_DEV *pTouchDev=(GUI_TOUCH_DEV*)&obj;
@@ -28,7 +27,6 @@
 SET_TOUCH_DEV(TouchDev_ADS7843);
 #endif
 #endif
-#endif	/* GUI_TOUCHSCREEN_EN */
 
 /*========================触摸接口部分===================================*/
 /**
@@ -118,6 +116,7 @@ void GUI_TouchHandler(void)
 	if(act==TS_ACT_DOWN)
 	{
     /* 触摸按下，使用触摸坐标作为输入 */
+		printf("%d %d\t",pt.x,pt.y);
 		MouseInput(pt.x,pt.y,MK_LBUTTON);
 	}
 

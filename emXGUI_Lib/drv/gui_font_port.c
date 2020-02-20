@@ -38,7 +38,7 @@ extern const char GB2312_20_2BPP[];
 extern const char GB2312_16_4BPP[];
 extern const char GB2312_20_4BPP[];
 
-extern const char ASCII_16_4BPP[];
+//extern const char ASCII_16_4BPP[];
 extern const char ASCII_20_4BPP[];
 extern const char ASCII_24_4BPP[];
 extern const char ASCII_32_4BPP[];
@@ -58,17 +58,11 @@ BOOL res_not_found_flag = FALSE;
 HFONT logoFont =NULL;
 HFONT logoFont_200 =NULL;
 /* 图标字体 */
-HFONT iconFont_50 =NULL;
-HFONT iconFont_150 =NULL;
-HFONT iconFont_252 =NULL;
+HFONT iconFont_100 =NULL;
 /* 控制图标字体 */
-HFONT controlFont_12 =NULL;
-HFONT controlFont_24 =NULL;
 HFONT controlFont_48 =NULL;
 HFONT controlFont_32 =NULL;
-HFONT controlFont_16 =NULL;
-HFONT controlFont_72 =NULL;
-HFONT controlFont_100 =NULL;
+HFONT controlFont_64 =NULL;
 #endif
 
 /** 
@@ -255,10 +249,9 @@ HFONT GUI_Init_Extern_Font(void)
     defaultFont    = GUI_Init_Extern_Font_Stream(GUI_DEFAULT_EXTERN_FONT);
     logoFont       = GUI_Init_Extern_Font_Stream(GUI_LOGO_FONT);
     controlFont_48 = GUI_Init_Extern_Font_Stream(GUI_CONTROL_FONT_48);
-    controlFont_24 = GUI_Init_Extern_Font_Stream(GUI_CONTROL_FONT_24);
     controlFont_32 = GUI_Init_Extern_Font_Stream(GUI_CONTROL_FONT_32);
-    controlFont_16 = GUI_Init_Extern_Font_Stream(GUI_CONTROL_FONT_16);
-    iconFont_50    = GUI_Init_Extern_Font_Stream(GUI_ICON_FONT_50);
+    controlFont_64 = GUI_Init_Extern_Font_Stream(GUI_CONTROL_FONT_64);
+    iconFont_100    = GUI_Init_Extern_Font_Stream(GUI_ICON_FONT_100);
 //    iconFont_150   = GUI_Init_Extern_Font_Stream(GUI_ICON_FONT_150);
   }
 #endif 
@@ -283,7 +276,8 @@ HFONT GUI_Default_FontInit(void)
   
     /* 默认英文字体 */ 
 #if (STM32F10X_HD) || (STM32F40_41xxx)
-    defaultFontEn =XFT_CreateFont(GUI_DEFAULT_FONT_EN);
+//    defaultFontEn =XFT_CreateFont(GUI_DEFAULT_FONT_EN);
+	defaultFontEn    = GUI_Init_Extern_Font_Stream(GUI_DEFAULT_EXTERN_FONT);
 #endif
     /* 如果使用了启动界面，在启动界面再加载外部字体 */
 #if (GUI_EXTERN_FONT_EN && (!GUI_APP_BOOT_INTERFACE_EN))

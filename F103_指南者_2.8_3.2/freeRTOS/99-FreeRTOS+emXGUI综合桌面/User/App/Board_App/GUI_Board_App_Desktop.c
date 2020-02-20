@@ -55,14 +55,14 @@ static void dummy(void *p)
 //extern void GUI_AVIList_DIALOG(void);
 //extern void GUI_DEMO_RectSpeed(void);
 //extern void	GUI_RES_WRITER_DIALOG(void);
-//extern void	GUI_RES_Writer_Dialog(void);
 //extern void GUI_Boot_Interface_DIALOG(void);
 //extern void	GUI_PicViewer_Dialog(void);
-//extern void	GUI_App_Desktop(void);
 #if defined(Demo2)
 extern void	GUI_MUSICPLAYER_DIALOG(void);
 extern void GUI_RECORDER_DIALOG(void);
 #elif defined(Demo1)
+extern void	GUI_App_Desktop(void);
+extern void	GUI_RES_Writer_Dialog(void);
 extern void	GUI_LED_DIALOG(void);
 extern void	GUI_Camera_DIALOG(void);
 extern void GUI_ADC_CollectVoltage_Dialog(void);
@@ -148,10 +148,9 @@ static const struct __obj_list menu_list_1[] = {
 #if defined(Demo2)
       L"MP3播放器",	  NULL,	  L"I", RGB_WHITE, GUI_MUSICPLAYER_DIALOG,//dummy,//	
       L"录音机",	    NULL,	  L"Y", RGB_WHITE, GUI_RECORDER_DIALOG,
-//      L"FlashWriter", NULL,	  L"b", RGB_WHITE, GUI_RES_Writer_Dialog,
 
 #elif defined(Demo1)
-//      L"GUI应用",		  NULL, 	L"J", RGB_WHITE, GUI_App_Desktop,//dummy,//
+      L"GUI应用",		  NULL, 	L"J", RGB_WHITE, GUI_App_Desktop,//dummy,//
       L"RGB彩灯",		  NULL,	  L"L", RGB_WHITE, GUI_LED_DIALOG,//dummy,//GUI_LED_DIALOG
       L"摄像头",		  NULL,	  L"M", RGB_WHITE, GUI_Camera_DIALOG,//dummy,//	
 
@@ -168,6 +167,8 @@ static const struct __obj_list menu_list_1[] = {
 //  
       L"电压表",		  NULL,	  L"W", RGB_WHITE, GUI_ADC_CollectVoltage_Dialog,  
       L"温湿度",	    NULL,   L"O", RGB_WHITE, GUI_T_RH_Dialog,
+      L"FlashWriter", NULL,	  L"b", RGB_WHITE, GUI_RES_Writer_Dialog,
+
 #elif defined(OnlyCam)
       L"摄像头",		  NULL,	  L"M", RGB_WHITE, GUI_Camera_DIALOG,//dummy,//	
 #endif

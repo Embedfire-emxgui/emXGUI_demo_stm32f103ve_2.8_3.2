@@ -729,13 +729,13 @@ static LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 //                      music_icon[2].rc.x,music_icon[2].rc.y,
 //                      music_icon[2].rc.w,music_icon[2].rc.h,
 //                      hwnd,ID_BUTTON_Equa,NULL,NULL);
-         
+#if 0
          //喇叭icon
          horn_wnd = CreateWindow(BUTTON,L"Q",WS_OWNERDRAW |WS_VISIBLE,
                       music_icon[3].rc.x,music_icon[3].rc.y,
                       music_icon[3].rc.w,music_icon[3].rc.h,
                       hwnd,ID_BUTTON_Horn,NULL,NULL);
-
+#endif
          //上一首
          CreateWindow(BUTTON,L"S",WS_OWNERDRAW |WS_VISIBLE,
                       music_icon[5].rc.x,music_icon[5].rc.y,
@@ -945,7 +945,7 @@ static LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
                   ReleaseDC(hwnd, hdc);            
                   break;
                }            
-            
+#if 0
                //喇叭icon处理case
                case ID_BUTTON_Horn:
                {
@@ -967,7 +967,7 @@ static LRESULT win_proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
                      InvalidateRect(hwnd, &music_icon[3].rc, TRUE);                     
                   break;                  
                }  
-               
+#endif
                //喇叭icon处理case
                case ID_SCROLLBAR_TIMER:
                {

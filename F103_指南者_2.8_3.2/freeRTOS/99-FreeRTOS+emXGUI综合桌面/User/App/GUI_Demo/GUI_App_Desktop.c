@@ -87,18 +87,18 @@ static void App_GUI_DEMO_Hello(HWND hwnd)
 #endif
 
 
-void GUI_PicViewer_Dialog(void);
-void	GUI_DEMO_Graphics_Accelerator(void);
+//void GUI_PicViewer_Dialog(void);
+//void	GUI_DEMO_Graphics_Accelerator(void);
 void	GUI_DEMO_ShowWave(void);
-extern int	Calculator_WinMain(void);
+//extern int	Calculator_WinMain(void);
 
 static struct __obj_list menu_list_1[] = {
 
-  L"图形加速器",  NULL, 	L"e", RGB_WHITE,	 GUI_DEMO_Graphics_Accelerator,//GUI_PicViewer_Dialog,//
+//  L"图形加速器",  NULL, 	L"e", RGB_WHITE,	 GUI_DEMO_Graphics_Accelerator,//GUI_PicViewer_Dialog,//
   L"波形显示",		NULL,	  L"B", RGB_WHITE,   GUI_DEMO_ShowWave,//
 		
 //  L"仪表盘",		  NULL,	  L"H", RGB_WHITE,   dummy,
-  L"计算器",	    NULL, 	L"Z", RGB_WHITE,	 Calculator_WinMain,//dummy,//
+//  L"计算器",	    NULL, 	L"Z", RGB_WHITE,	 Calculator_WinMain,//dummy,//
 
 	NULL,	NULL,NULL,	NULL, NULL,//结束标志!
 
